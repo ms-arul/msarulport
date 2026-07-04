@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { FaQuoteLeft, FaUser } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const testimonialData = [
   {
@@ -16,59 +16,19 @@ const testimonialData = [
     message: "Arul is a phenomenal developer. He took charge of developing our official Android application, delivering a high-performance client with clean architecture, smooth API integrations, and robust state management.",
   },
   {
+    image: "/testimonials/nithya.png",
+    name: "Nithya",
+    position: "CSE student | influencer",
+    message: "I've had the opportunity to see Arul Prakash's work closely, and I'm genuinely impressed by his dedication, creativity, and innovative mindset. Every project reflects clean coding practices, attention to detail, and a passion for building real-world solutions. His ability to solve problems and continuously improve his skills makes him stand out as a Full Stack Developer. I have no doubt he'll continue to deliver exceptional results in every project he takes on.",
+  },
+  {
     position: "User - MS Family App",
     message: "Had a great experience using the MS Family management application. It has made tracking family schedules, coordinating information, and organizing daily tasks incredibly simple and stress-free. Highly recommended utility!",
   }
 ];
 
 const TestimonialSlider = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setStatus({ type: "", message: "" });
-
-    const form = e.target;
-    const name = form.name.value;
-    const link = form.link.value;
-    const message = form.message.value;
-
-    try {
-      const response = await fetch("/api/review", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, link, message }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus({
-          type: "success",
-          message: "Thank you! Your review has been sent to my email successfully.",
-        });
-        form.reset();
-        setTimeout(() => {
-          setIsOpen(false);
-          setStatus({ type: "", message: "" });
-        }, 3000);
-      } else {
-        throw new Error(data.message || "Failed to submit review.");
-      }
-    } catch (err) {
-      setStatus({
-        type: "error",
-        message: err.message || "An error occurred. Please try again.",
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto mt-8 px-4 pb-8">
@@ -126,125 +86,17 @@ const TestimonialSlider = () => {
         </motion.div>
       ))}
 
-      {/* Give Review Button */}
+      {/* Give Review Button — navigates to /review page */}
       <div className="flex justify-center mt-6">
         <motion.button
-          onClick={() => {
-            setIsOpen(true);
-            setStatus({ type: "", message: "" });
-          }}
+          onClick={() => navigate("/review")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-white border border-accent/40 bg-accent/10 hover:bg-accent/25 transition-all duration-300 shadow-[0_0_15px_rgba(241,48,36,0.15)] hover:shadow-[0_0_25px_rgba(241,48,36,0.3)]"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-white border border-accent/40 bg-accent/10 hover:bg-accent/25 transition-all duration-300 shadow-[0_0_15px_rgba(241,48,36,0.15)] hover:shadow-[0_0_25px_rgba(241,48,36,0.3)] cursor-pointer"
         >
-          <span>Give Review</span>
+          Give Review
         </motion.button>
       </div>
-
-      {/* Dialog Box Modal */}
-      <AnimatePresence>
-        {isOpen && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => {
-                if (!submitting) setIsOpen(false);
-              }}
-              className="absolute inset-0 bg-black/80 backdrop-blur-md"
-            />
-
-            {/* Dialog Content */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#1e1f38] to-[#131424] border border-white/10 shadow-2xl z-10 overflow-hidden text-left"
-            >
-              {/* Subtle top edge glow */}
-              <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-accent to-transparent" />
-
-              {/* Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-black text-white">Submit a Review</h3>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  disabled={submitting}
-                  className="text-white/40 hover:text-white disabled:opacity-30 transition-colors duration-200 text-lg"
-                >
-                  &times;
-                </button>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/* Name */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-white/40">Name *</label>
-                  <input
-                    type="text"
-                    required
-                    name="name"
-                    disabled={submitting}
-                    className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-accent/50 focus:bg-accent/5 transition-all duration-300"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                {/* Optional Link */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-white/40">Link (Optional)</label>
-                  <input
-                    type="url"
-                    name="link"
-                    disabled={submitting}
-                    className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-accent/50 focus:bg-accent/5 transition-all duration-300"
-                    placeholder="https://linkedin.com/in/username"
-                  />
-                </div>
-
-                {/* Message */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-white/40">Review *</label>
-                  <textarea
-                    required
-                    name="message"
-                    rows={4}
-                    disabled={submitting}
-                    className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-accent/50 focus:bg-accent/5 transition-all duration-300 resize-none"
-                    placeholder="Write your experience here..."
-                  />
-                </div>
-
-                {/* Status Message */}
-                {status.message && (
-                  <div
-                    className={`p-3 rounded-xl text-xs font-semibold ${
-                      status.type === "success"
-                        ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
-                        : "bg-rose-500/10 border border-rose-500/30 text-rose-400"
-                    }`}
-                  >
-                    {status.message}
-                  </div>
-                )}
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="mt-2 flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold uppercase tracking-wider text-xs text-white bg-accent hover:bg-accent/90 disabled:bg-accent/40 disabled:cursor-not-allowed transition-all duration-300 shadow-[0_4px_16px_rgba(241,48,36,0.35)]"
-                >
-                  {submitting ? "Submitting..." : "Send Review"}
-                </button>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

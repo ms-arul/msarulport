@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import HeroSection from "./components/sections/HeroSection";
 import AboutSection from "./components/sections/AboutSection";
 import ServicesSection from "./components/sections/ServicesSection";
@@ -7,6 +8,7 @@ import ContactSection from "./components/sections/ContactSection";
 import SectionDivider from "./components/sections/SectionDivider";
 import ScrollDots from "./components/sections/ScrollDots";
 import ScrollToTop from "./components/sections/ScrollToTop";
+import ReviewPage from "./components/ReviewPage";
 
 const Home = () => {
   return (
@@ -34,4 +36,13 @@ const Home = () => {
   );
 };
 
-export default Home;
+const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/review" element={<ReviewPage />} />
+    </Routes>
+  );
+};
+
+export default App;
