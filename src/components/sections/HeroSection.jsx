@@ -142,7 +142,7 @@ const HeroSection = () => {
                       alt="Arul Prakash"
                       width="130"
                       height="130"
-                      className="object-cover object-top w-full h-full scale-[1.2] translate-y-2 translate-x-1"
+                      className="object-cover object-top w-full h-full scale-[1.2] translate-y-2"
                       draggable={false}
                       onContextMenu={(e) => e.preventDefault()}
                       style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
@@ -344,7 +344,7 @@ const HeroSection = () => {
               absolute bottom-[80px] lg:bottom-0 left-1/2 -translate-x-1/2
               w-[260px] sm:w-[320px] md:w-[380px]
               lg:left-auto lg:right-[8%] lg:translate-x-0
-              lg:w-[650px]
+              lg:w-[650px] xl:w-[530px] xl:right-[8%]
             "
           >
             <Avatar />

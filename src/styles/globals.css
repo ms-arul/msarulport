@@ -427,3 +427,20 @@ img {
   opacity: 1;
   transform: translateX(0);
 }
+
+/* ═══════════════════════════════════════════
+   AVATAR CUTOUT — Sharp Accent Stroke
+   ═══════════════════════════════════════════ */
+.avatar-cutout-outline {
+  filter: 
+    drop-shadow(3px 0 0 #F13024) 
+    drop-shadow(-3px 0 0 #F13024) 
+    drop-shadow(0 3px 0 #F13024) 
+    drop-shadow(0 -3px 0 #F13024)
+    drop-shadow(2px 2px 0 #F13024) 
+    drop-shadow(-2px -2px 0 #F13024) 
+    drop-shadow(2px -2px 0 #F13024) 
+    drop-shadow(-2px 2px 0 #F13024)
+    drop-shadow(0 0 20px rgba(241, 48, 36, 0.5));
+}
+

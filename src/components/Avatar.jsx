@@ -13,7 +13,7 @@ const Avatar = () => {
         alt="Arul Prakash"
         width="780"
         height="678"
-        className="translate-z-0 w-full h-full drop-shadow-[0_0_20px_rgba(241,48,36,0.15)]"
+        className="translate-z-0 w-full h-full avatar-cutout-outline"
         draggable={false}
         style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
       />
